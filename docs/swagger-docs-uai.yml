@@ -1,0 +1,275 @@
+openapi: 3.0.3
+info:
+  title: API Uai Telecom & IXC
+  description: Integração IXC e Blip, incluindo endpoints de cliente, financeiro, ordens de serviço, desbloqueios e Router/Desk.
+  version: "1.0.0"
+
+servers:
+  - url: "https://sistema.uaitelecom.com.br"
+    description: Servidor IXC
+  - url: "https://uaitelecom.http.msging.net"
+    description: Servidor Blip Router
+  - url: "https://viacep.com.br/ws"
+    description: API ViaCEP
+  - url: "https://check-name.herokuapp.com"
+    description: API Check-Name
+
+tags:
+  - name: Cliente IXC
+    description: Endpoints de clientes
+  - name: Financeiro IXC
+    description: Informações financeiras
+  - name: Ordem de Serviço
+    description: Consultar ordens de serviço
+  - name: Desbloqueio confiança
+    description: Desbloquear conexão
+  - name: Blip Router
+    description: API do Router e Desk da Blip
+  - name: Utilidades
+    description: APIs externas de apoio
+
+components:
+  securitySchemes:
+    ApiKeyHubSoft:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token IXC ({{resource.authIxc}})
+    ApiKeyRouter:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token Router ({{resource.authRouter}})
+
+paths:
+  # =========================
+  # IXC - Cliente
+  # =========================
+  /webservice/v1/cliente:
+    post:
+      tags:
+        - Cliente IXC
+      summary: Buscar cliente pelo CPF/CNPJ
+      description: Consulta clientes ativos no IXC utilizando CPF ou CNPJ.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - qtype
+                - query
+                - oper
+              properties:
+                qtype:
+                  type: string
+                  example: cnpj_cpf
+                query:
+                  type: string
+                  example: "12345678901"
+                oper:
+                  type: string
+                  example: "="
+                rp:
+                  type: string
+                  example: "1"
+                sortname:
+                  type: string
+                  example: cliente.id
+                sortorder:
+                  type: string
+                  example: asc
+                grid_param:
+                  type: string
+                  example: >
+                    [{"TB":"cliente.ativo","OP":"=","P":"S","C":"AND"}]
+      responses:
+        "200":
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+        "401":
+          description: Não autorizado
+        "500":
+          description: Erro interno no IXC
+      security:
+        - ApiKeyIXC: []
+
+  /api/v1/integracao/cliente/financeiro:
+    get:
+      tags:
+        - Financeiro HubSoft
+      summary: Informações financeiras
+      parameters:
+        - name: busca
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [id_cliente_servico]
+        - name: termo_busca
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: data_inicio
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: data_fim
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: tipo_data
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [data_vencimento, data_cadastro]
+      responses:
+        "200":
+          description: Dados retornados
+      security:
+        - ApiKeyHubSoft: []
+
+  
+
+  # =========================
+  # Blip Router - Commands
+  # =========================
+  /commands:
+    post:
+      tags:
+        - Blip Router
+      summary: Comandos no Router
+      requestBody:
+        required: true
+        content:
+          application/json:
+            examples:
+              GetAccount:
+                summary: Buscar contato
+                value:
+                  id: "{{random.guid}}"
+                  to: "postmaster@wa.gw.msging.net"
+                  method: "get"
+                  uri: "lime://wa.gw.msging.net/accounts/{{phoneNumberContact}}"
+              UpdatedContact:
+                summary: Atualizar contato no Router
+                value:
+                  id: "{{random.guid}}"
+                  to: "postmaster@msging.net"
+                  method: "get"
+                  uri: "/contexts/{{contact.identity}}/updatedContactUai"
+              ScheduleMessage:
+                summary: Agendar mensagem interativa
+                value:
+                  id: "{{randomGuidScheduleOne}}"
+                  to: "postmaster@scheduler.msging.net"
+                  method: "set"
+                  uri: "/schedules"
+                  type: "application/vnd.iris.schedule+json"
+                  resource:
+                    message:
+                      id: "{{randomGuidScheduleTwo}}"
+                      to: "{{tunnel.originator}}"
+                      type: "application/json"
+                      content:
+                        recipient_type: "individual"
+                        type: "interactive"
+                        interactive:
+                          type: "button"
+                          body:
+                            text: "Oi *{{contact.name}}*, bom dia!\n\nNosso *time* já está *disponível!*\n\nQuer prosseguir com seu atendimento?"
+                          action:
+                            buttons:
+                              - type: "reply"
+                                reply:
+                                  id: "ID 1.1"
+                                  title: "Sim, Vamos lá!🥳"
+                              - type: "reply"
+                                reply:
+                                  id: "ID 1.2"
+                                  title: "Não, obrigado!😉"
+                    when: "{{dataHoraSchedule}}"
+                    name: "Agendamento de mensagem"
+      responses:
+        "200":
+          description: Comando executado
+      security:
+        - ApiKeyRouter: []
+
+  /messages:
+    post:
+      tags:
+        - Blip Router
+      summary: Enviar mensagem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              id: "{{random.guid}}"
+              to: "5511999999999@wa.gw.msging.net"
+              type: "application/json"
+              content:
+                type: "template"
+                template:
+                  name: "test_acompanhamento_chamadas"
+                  language:
+                    code: "pt_BR"
+                    policy: "deterministic"
+                  components:
+                    - type: "body"
+                      parameters:
+                        - type: "text"
+                          text: "Process responseAllBill"
+                        - type: "text"
+                          text: "Status: IC.1.0.0.1 - validate if has debit | Contato: {{contact.identity}}"
+                        - type: "text"
+                          text: "Response: {{responseAllBill}}"
+      responses:
+        "200":
+          description: Mensagem enviada
+      security:
+        - ApiKeyRouter: []
+
+  # =========================
+  # Utilidades
+  # =========================
+  /ws/{cep}/json/:
+    get:
+      tags:
+        - Utilidades
+      summary: Consulta CEP
+      parameters:
+        - name: cep
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Endereço retornado
+
+  /verify/{nameToCallApiName}:
+    get:
+      tags:
+        - Utilidades
+      summary: Check-Name API
+      parameters:
+        - name: nameToCallApiName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resultado da verificação
