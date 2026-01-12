@@ -107,7 +107,7 @@ paths:
   /webservice/v1/fn_areceber:
     post:
       tags:
-        - Cliente IXC
+        - Financeiro IXC
       summary: Consultar títulos a receber por contrato
       description: |
         Consulta títulos em aberto no IXC a partir do **ID do contrato**.
