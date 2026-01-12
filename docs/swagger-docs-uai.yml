@@ -18,6 +18,8 @@ servers:
 tags:
   - name: Cliente IXC
     description: Endpoints de clientes
+  - name: Financeiro IXC
+    description: Endpoints
   - name: Blip Router
     description: API do Router e Desk da Blip
   - name: Utilidades
@@ -38,7 +40,9 @@ components:
       description: Token Router
 
 paths:
-
+#==========================
+# Ixc Clinte
+#==========================
   /webservice/v1/cliente:
     post:
       tags:
@@ -98,6 +102,68 @@ paths:
       security:
         - ApiKeyIXC: []
 
+  /webservice/v1/fn_areceber:
+    post:
+      tags:
+        - Cliente IXC
+      summary: Consultar títulos a receber por contrato
+      description: |
+        Consulta títulos em aberto no IXC a partir do **ID do contrato**.
+
+        ⚠️ **Atenção – Limitação técnica**
+        Este endpoint não pode ser executado diretamente pelo Swagger UI
+        devido a restrições de CORS do IXC.
+
+        Utilize:
+        - Postman
+        - Insomnia
+        - API intermediária (Chatbot / Backend)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - qtype
+                - query
+                - oper
+              properties:
+                qtype:
+                  type: string
+                  example: fn_areceber.id_contrato
+                query:
+                  type: string
+                  example: "12345"
+                oper:
+                  type: string
+                  example: "="
+                sortname:
+                  type: string
+                  example: fn_areceber.data_vencimento
+                sortorder:
+                  type: string
+                  example: asc
+                grid_param:
+                  type: string
+                  example: >
+                    [
+                      {"TB":"fn_areceber.liberado","OP":"=","P":"S","C":"AND"},
+                      {"TB":"fn_areceber.status","OP":"!=","P":"C"},
+                      {"TB":"fn_areceber.status","OP":"!=","P":"R"}
+                    ]
+      responses:
+        "200":
+          description: Títulos encontrados
+        "401":
+          description: Não autorizado
+        "500":
+          description: Erro interno no IXC
+      security:
+        - ApiKeyIXC: []
+#==========================
+# Blip Commands
+#==========================
   /commands:
     post:
       tags:
@@ -117,7 +183,9 @@ paths:
           description: Comando executado
       security:
         - ApiKeyRouter: []
-
+#==========================
+# Utilidades
+#==========================
   /ws/{cep}/json/:
     get:
       tags:
