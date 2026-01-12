@@ -17,9 +17,11 @@ servers:
 
 tags:
   - name: Cliente IXC
-    description: Endpoints de clientes
+    description: Endpoint de clientes
   - name: Financeiro IXC
-    description: Endpoints
+    description: Endpoint de financeiro
+  - name: OS IXC
+    description: Endpoint de ordem de serviço
   - name: Blip Router
     description: API do Router e Desk da Blip
   - name: Utilidades
@@ -155,6 +157,73 @@ paths:
       responses:
         "200":
           description: Títulos encontrados
+        "401":
+          description: Não autorizado
+        "500":
+          description: Erro interno no IXC
+      security:
+        - ApiKeyIXC: []
+
+  /webservice/v1/su_oss_chamado:
+    post:
+      tags:
+        - OS IXC
+      summary: Consultar ordens de serviço por cliente
+      description: |
+        Consulta ordens de serviço (OSS/Chamados) no IXC a partir do **ID do cliente**.
+
+        ⚠️ **Atenção – Limitação técnica**
+        Este endpoint não pode ser executado diretamente pelo Swagger UI
+        devido a restrições de CORS do IXC.
+
+        Utilize:
+        - Postman
+        - Insomnia
+        - API intermediária (Chatbot / Backend)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - qtype
+                - query
+                - oper
+              properties:
+                qtype:
+                  type: string
+                  example: su_oss_chamado.id_cliente
+                query:
+                  type: string
+                  example: "123456"
+                oper:
+                  type: string
+                  example: "="
+                rp:
+                  type: string
+                  example: "1000"
+                sortname:
+                  type: string
+                  example: su_oss_chamado.id
+                sortorder:
+                  type: string
+                  example: asc
+                grid_param:
+                  type: string
+                  example: >
+                    [
+                      {
+                        "TB":"su_oss_chamado.status",
+                        "OP":"!=",
+                        "P":"F",
+                        "C":"AND",
+                        "G":"id_assunto"
+                      }
+                    ]
+      responses:
+        "200":
+          description: Ordens de serviço encontradas
         "401":
           description: Não autorizado
         "500":
