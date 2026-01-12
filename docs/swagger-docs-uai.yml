@@ -46,100 +46,63 @@ paths:
   # IXC - Cliente
   # =========================
   /webservice/v1/cliente:
-    post:
-      tags:
-        - Cliente IXC
-      summary: Buscar cliente pelo CPF/CNPJ
-      description: Consulta clientes ativos no IXC utilizando CPF ou CNPJ.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - qtype
-                - query
-                - oper
-              properties:
-                qtype:
-                  type: string
-                  example: cnpj_cpf
-                query:
-                  type: string
-                  example: "12345678901"
-                oper:
-                  type: string
-                  example: "="
-                rp:
-                  type: string
-                  example: "1"
-                sortname:
-                  type: string
-                  example: cliente.id
-                sortorder:
-                  type: string
-                  example: asc
-                grid_param:
-                  type: string
-                  example: >
-                    [{"TB":"cliente.ativo","OP":"=","P":"S","C":"AND"}]
-      responses:
-        "200":
-          description: Cliente encontrado
-          content:
-            application/json:
-              schema:
-                type: object
-        "401":
-          description: Não autorizado
-        "500":
-          description: Erro interno no IXC
-      security:
-        - ApiKeyIXC: []
+  post:
+    tags:
+      - Cliente IXC
+    summary: Buscar cliente pelo CPF/CNPJ
+    description: |
+      Consulta clientes ativos no IXC utilizando CPF ou CNPJ.
 
-  /api/v1/integracao/cliente/financeiro:
-    get:
-      tags:
-        - Financeiro HubSoft
-      summary: Informações financeiras
-      parameters:
-        - name: busca
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [id_cliente_servico]
-        - name: termo_busca
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: data_inicio
-          in: query
-          required: true
-          schema:
-            type: string
-            format: date
-        - name: data_fim
-          in: query
-          required: true
-          schema:
-            type: string
-            format: date
-        - name: tipo_data
-          in: query
-          required: true
-          schema:
-            type: string
-            enum: [data_vencimento, data_cadastro]
-      responses:
-        "200":
-          description: Dados retornados
-      security:
-        - ApiKeyHubSoft: []
+      ⚠️ **Atenção – Limitação técnica**
+      Este endpoint não pode ser executado diretamente pelo Swagger UI
+      devido a restrições de CORS do IXC.
 
-  
+      Utilize:
+      - Postman
+      - Insomnia
+      - API intermediária (Chatbot / Backend)
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - qtype
+              - query
+              - oper
+            properties:
+              qtype:
+                type: string
+                example: cnpj_cpf
+              query:
+                type: string
+                example: "12345678901"
+              oper:
+                type: string
+                example: "="
+              rp:
+                type: string
+                example: "1"
+              sortname:
+                type: string
+                example: cliente.id
+              sortorder:
+                type: string
+                example: asc
+              grid_param:
+                type: string
+                example: >
+                  [{"TB":"cliente.ativo","OP":"=","P":"S","C":"AND"}]
+    responses:
+      "200":
+        description: Cliente encontrado
+      "401":
+        description: Não autorizado
+      "500":
+        description: Erro interno no IXC
+    security:
+      - ApiKeyIXC: []
 
   # =========================
   # Blip Router - Commands
