@@ -293,12 +293,12 @@ paths:
       summary: Consulta Status ONU
       description: Verifica se o cliente está afetado por algum evento de monitoramento
       parameters:
-        -name: customerId
-        in: path
-        required: true
-        description: Identificador do cliente
-        schema:
-          type: string
+        - name: customerId
+          in: path
+          required: true
+          description: Identificador do cliente
+          schema:
+            type: string
       responses:
         "200":
           description: Status ONU encontrado
@@ -306,6 +306,6 @@ paths:
           description: Não autorizado
         "500":
           description: Erro interno no NMT
-      security:
-        - ApiKeyNMT: []
+        security:
+          - ApiKeyNMT: []
 
