@@ -69,7 +69,7 @@ paths:
       description: |
         Consulta clientes ativos no IXC utilizando CPF ou CNPJ.
 
-        ⚠️ **Atenção – Limitação técnica**
+        **Atenção – Limitação técnica**
         Este endpoint não pode ser executado diretamente pelo Swagger UI
         devido a restrições de CORS do IXC.
 
@@ -128,7 +128,7 @@ paths:
       description: |
         Consulta títulos em aberto no IXC a partir do **ID do contrato**.
 
-        ⚠️ **Atenção – Limitação técnica**
+        **Atenção – Limitação técnica**
         Este endpoint não pode ser executado diretamente pelo Swagger UI
         devido a restrições de CORS do IXC.
 
@@ -184,7 +184,7 @@ paths:
       description: |
         Consulta ordens de serviço (OSS/Chamados) no IXC a partir do **ID do cliente**.
 
-        ⚠️ **Atenção – Limitação técnica**
+        **Atenção – Limitação técnica**
         Este endpoint não pode ser executado diretamente pelo Swagger UI
         devido a restrições de CORS do IXC.
 
@@ -243,7 +243,7 @@ paths:
       description: |
         Consulta os dados do PIX no IXC a partir do **ID da fatura (id_areceber)**.
 
-        ⚠️ **Atenção – Limitação técnica**
+        **Atenção – Limitação técnica**
         Este endpoint não pode ser executado diretamente pelo Swagger UI
         devido a restrições de CORS do IXC.
 
@@ -288,7 +288,7 @@ paths:
         Consulta contratos no IXC a partir do **ID do contrato**,
         aplicando filtros de status de internet.
 
-        ⚠️ **Atenção – Limitação técnica**
+        **Atenção – Limitação técnica**
         Este endpoint não pode ser executado diretamente pelo Swagger UI
         devido a restrições de CORS do IXC.
 
@@ -353,7 +353,7 @@ paths:
         Executa o **desbloqueio por confiança** de um contrato no IXC,
         utilizando o **ID do contrato**.
 
-        ⚠️ **Atenção – Limitação técnica**
+        **Atenção – Limitação técnica**
         Este endpoint não pode ser executado diretamente pelo Swagger UI
         devido a restrições de CORS do IXC.
 
