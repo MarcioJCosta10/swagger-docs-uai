@@ -58,9 +58,11 @@ components:
       description: Token NMT
 
 paths:
+  
   #==========================
   # Ixc Cliente
   #==========================
+  
   /webservice/v1/cliente:
     post:
       tags:
@@ -388,9 +390,11 @@ paths:
           description: Erro interno no IXC
       security:
         - ApiKeyIXC: []
+  
   #==========================
   # Blip Commands
   #==========================
+  
   /commands:
     post:
       tags:
@@ -410,9 +414,11 @@ paths:
           description: Comando executado
       security:
         - ApiKeyRouter: []
+  
   #==========================
   # Utilidades
   #==========================
+  
   /viacep/{cep}/json/:
     get:
       tags:
