@@ -165,11 +165,7 @@ paths:
                 grid_param:
                   type: string
                   example: >
-                    [
-                      {"TB":"fn_areceber.liberado","OP":"=","P":"S","C":"AND"},
-                      {"TB":"fn_areceber.status","OP":"!=","P":"C"},
-                      {"TB":"fn_areceber.status","OP":"!=","P":"R"}
-                    ]
+                    [{"TB":"fn_areceber.liberado","OP":"=","P":"S","C":"AND"},{"TB":"fn_areceber.status","OP":"!=","P":"C"},{"TB":"fn_areceber.status","OP":"!=","P":"R"}]
       responses:
         "200":
           description: Títulos encontrados
@@ -228,15 +224,7 @@ paths:
                 grid_param:
                   type: string
                   example: >
-                    [
-                      {
-                        "TB":"su_oss_chamado.status",
-                        "OP":"!=",
-                        "P":"F",
-                        "C":"AND",
-                        "G":"id_assunto"
-                      }
-                    ]
+                    [{"TB":"su_oss_chamado.status","OP":"!=","P":"F","C":"AND","G":"id_assunto"}]
       responses:
         "200":
           description: Ordens de serviço encontradas
@@ -273,9 +261,9 @@ paths:
                 - id_areceber
               properties:
                 id_areceber:
-                  type: integer
+                  type: string
                   description: ID da fatura (a receber) no IXC
-                  example: 123456
+                  example: "123456"
       responses:
         "200":
           description: Dados do PIX retornados com sucesso
@@ -340,12 +328,7 @@ paths:
                   description: |
                     Filtros adicionais aplicados à consulta (JSON serializado).
                   example: >
-                    [
-                      {"TB":"cliente_contrato.status_internet","OP":"!=","P":"AA"},
-                      {"TB":"cliente_contrato.status_internet","OP":"!=","P":"A"},
-                      {"TB":"cliente_contrato.status_internet","OP":"!=","P":"D"},
-                      {"TB":"cliente_contrato.status_internet","OP":"!=","P":"FA"}
-                    ]
+                    [{"TB":"cliente_contrato.status_internet","OP":"!=","P":"AA"},{"TB":"cliente_contrato.status_internet","OP":"!=","P":"A"},{"TB":"cliente_contrato.status_internet","OP":"!=","P":"D"},{"TB":"cliente_contrato.status_internet","OP":"!=","P":"FA"}]
       responses:
         "200":
           description: Contrato(s) encontrado(s) com sucesso
@@ -430,7 +413,7 @@ paths:
   #==========================
   # Utilidades
   #==========================
-  /ws/{cep}/json/:
+  /{cep}/json/:
     get:
       tags:
         - Utilidades
