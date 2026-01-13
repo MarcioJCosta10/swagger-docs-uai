@@ -57,8 +57,7 @@ components:
       name: Authorization
       description: Token NMT
 
-paths:
-  
+paths:  
   #==========================
   # Ixc Cliente
   #==========================
