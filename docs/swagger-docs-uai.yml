@@ -26,8 +26,10 @@ tags:
     description: Endpoint de ordem de serviço
   - name: PIX IXC
     description: Endpoint do PIX
+  - name: Contratos IXC
+    description: Endpoint de contratos
   - name: Desbloqueio IXC
-    description: Endpoint de desbloqueio no IXC
+    description: Endpoint de desbloqueio
   - name: Blip Router
     description: API do Router e Desk da Blip
   - name: Utilidades
@@ -352,6 +354,51 @@ paths:
               schema:
                 type: object
                 description: Retorno de contratos do IXC
+        "401":
+          description: Não autorizado
+        "500":
+          description: Erro interno no IXC
+      security:
+        - ApiKeyIXC: []
+
+  /webservice/v1/desbloqueio_confianca:
+    post:
+      tags:
+        - Desbloqueio IXC
+      summary: Realizar desbloqueio por confiança do contrato
+      description: |
+        Executa o **desbloqueio por confiança** de um contrato no IXC,
+        utilizando o **ID do contrato**.
+
+        ⚠️ **Atenção – Limitação técnica**
+        Este endpoint não pode ser executado diretamente pelo Swagger UI
+        devido a restrições de CORS do IXC.
+
+        Utilize:
+        - Postman
+        - Insomnia
+        - API intermediária (Chatbot / Backend)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: ID do contrato no IXC
+                  example: 123456
+      responses:
+        "200":
+          description: Desbloqueio realizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Retorno do desbloqueio por confiança do IXC
         "401":
           description: Não autorizado
         "500":
