@@ -33,7 +33,7 @@ tags:
   - name: Desbloqueio IXC
     description: Endpoint de desbloqueio
   - name: Blip Router
-    description: API do Router e Desk da Blip
+    description: API's do Blip
   - name: Utilidades
     description: APIs externas de Via Cep
   - name: Monitoramento
@@ -419,6 +419,97 @@ paths:
       security:
         - ApiKeyRouter: []
   
+  /messages:
+    post:
+      tags:
+        - Blip Router
+      summary: Enviar mensagem para lista de distribuição (Broadcast)
+      description: |
+        Envia uma mensagem de texto para uma **lista de distribuição (broadcast)** no Blip.
+
+        O envio é realizado no endpoint `/messages`
+        utilizando o domínio do contrato Blip já definido nos servers.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - to
+                - type
+                - content
+              properties:
+                id:
+                  type: string
+                  description: Identificador único da mensagem
+                  example: "{{$guid}}"
+                to:
+                  type: string
+                  description: Lista de distribuição (broadcast)
+                  example: "your_distributionList@broadcast.msging.net"
+                type:
+                  type: string
+                  example: text/plain
+                content:
+                  type: string
+                  example: Hello participants of this list!
+      responses:
+        "200":
+          description: Mensagem enviada com sucesso
+        "401":
+          description: Não autorizado
+        "500":
+          description: Erro interno no Blip
+      security:
+        - ApiKeyRouter: []
+
+  /notifications:
+    post:
+      tags:
+        - Blip Router
+      summary: Enviar notificação de evento de mensagem
+      description: |
+        Envia uma **notificação de evento** para o Blip Router.
+
+        Este endpoint é utilizado para notificar eventos relacionados
+        ao ciclo de vida de mensagens (ex: `consumed`, `received`, `failed`).
+
+        O domínio do contrato Blip já é definido no bloco `servers`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - from
+                - event
+              properties:
+                id:
+                  type: string
+                  description: Identificador único da notificação
+                  example: "99cf454e-f25d-4ebd-831f-e48a1c612cd4"
+                from:
+                  type: string
+                  description: Identidade do remetente (origem do evento)
+                  example: "551100001111@0mn.io/4ac58r6e3"
+                event:
+                  type: string
+                  description: Tipo do evento ocorrido
+                  example: consumed
+      responses:
+        "200":
+          description: Notificação enviada com sucesso
+        "401":
+          description: Não autorizado
+        "500":
+          description: Erro interno no Blip
+      security:
+        - ApiKeyRouter: []
+  
   #==========================
   # Utilidades
   #==========================
@@ -437,7 +528,11 @@ paths:
       responses:
         "200":
           description: Endereço retornado
-
+  
+  #==========================
+  # Validar nomes
+  #==========================
+  
   /verify/{nameToCallApiName}:
     get:
       tags:
