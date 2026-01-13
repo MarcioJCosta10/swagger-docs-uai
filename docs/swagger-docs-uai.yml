@@ -441,7 +441,7 @@ paths:
   /verify/{nameToCallApiName}:
     get:
       tags:
-        - Utilidades
+        - Name
       summary: Verificar nome via API Check-Name
       description: |
         Realiza a verificação de um nome utilizando a API **Check-Name**.
@@ -467,6 +467,7 @@ paths:
           description: Requisição inválida
         "500":
           description: Erro interno na API de verificação
+  
   #==========================
   # Monitoramento
   #==========================
