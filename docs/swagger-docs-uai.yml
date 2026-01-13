@@ -306,6 +306,6 @@ paths:
           description: Não autorizado
         "500":
           description: Erro interno no NMT
-        security:
-          - ApiKeyNMT: []
+      security:
+        - ApiKeyNMT: []
 
