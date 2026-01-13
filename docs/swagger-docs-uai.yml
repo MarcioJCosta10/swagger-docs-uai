@@ -286,7 +286,7 @@ paths:
 # Monitoramento
 #==========================
 
-  /monitoring/events/{{customerId}}/is-client-affected:
+  /monitoring/events/{customerId}/is-client-affected:
     get:
       tags:
         - Monitoramento
