@@ -236,50 +236,6 @@ paths:
       security:
         - ApiKeyIXC: []
 
-  /webservice/v1/get_pix:
-    post:
-      tags:
-        - PIX IXC
-      summary: Consultar os dados do PIX do boleto
-      description: |
-        Consulta os dados do PIX no IXC a partir do **ID da fatura (id_areceber)**.
-
-        **Atenção – Limitação técnica**
-        Este endpoint não pode ser executado diretamente pelo Swagger UI
-        devido a restrições de CORS do IXC.
-
-        Utilize:
-        - Postman
-        - Insomnia
-        - API intermediária (Chatbot / Backend)
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - id_areceber
-              properties:
-                id_areceber:
-                  type: string
-                  description: ID da fatura (a receber) no IXC
-                  example: "123456"
-      responses:
-        "200":
-          description: Dados do PIX retornados com sucesso
-          content:
-            application/json:
-              schema:
-                type: object
-                description: Retorno do PIX do IXC
-        "401":
-          description: Não autorizado
-        "500":
-          description: Erro interno no IXC
-      security:
-        - ApiKeyIXC: []
-
   /webservice/v1/cliente_contrato:
     post:
       tags:
@@ -390,6 +346,51 @@ paths:
       security:
         - ApiKeyIXC: []
   
+  /webservice/v1/get_pix:
+    post:
+      tags:
+        - PIX IXC
+      summary: Consultar os dados do PIX do boleto
+      description: |
+        Consulta os dados do PIX no IXC a partir do **ID da fatura (id_areceber)**.
+
+        **Atenção – Limitação técnica**
+        Este endpoint não pode ser executado diretamente pelo Swagger UI
+        devido a restrições de CORS do IXC.
+
+        Utilize:
+        - Postman
+        - Insomnia
+        - API intermediária (Chatbot / Backend)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id_areceber
+              properties:
+                id_areceber:
+                  type: string
+                  description: ID da fatura (a receber) no IXC
+                  example: "123456"
+      responses:
+        "200":
+          description: Dados do PIX retornados com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Retorno do PIX do IXC
+        "401":
+          description: Não autorizado
+        "500":
+          description: Erro interno no IXC
+      security:
+        - ApiKeyIXC: []
+
+
   #==========================
   # Blip Commands
   #==========================
