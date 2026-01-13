@@ -16,6 +16,8 @@ servers:
     description: API Check-Name
   - url: https://api.uai-telecom.nmulti.tech
     description: API Multi Tech Monitoring
+  - url: https://check-name.herokuapp.com
+    description: Endpoint Validate Names
 
 tags:
   - name: Cliente IXC
@@ -36,6 +38,8 @@ tags:
     description: APIs externas de apoio
   - name: Monitoramento
     description: APIs externas de apoio
+  - name: Name
+    description: APIs externa validar nomes
 
 components:
   securitySchemes:
@@ -434,6 +438,35 @@ paths:
         "200":
           description: Endereço retornado
 
+  /verify/{nameToCallApiName}:
+    get:
+      tags:
+        - Utilidades
+      summary: Verificar nome via API Check-Name
+      description: |
+        Realiza a verificação de um nome utilizando a API **Check-Name**.
+
+        O nome a ser validado deve ser informado como **path parameter**.
+      parameters:
+        - name: nameToCallApiName
+          in: path
+          required: true
+          description: Nome que será enviado para validação
+          schema:
+            type: string
+            example: "Joao Silva"
+      responses:
+        "200":
+          description: Resultado da verificação do nome
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Retorno da API Check-Name
+        "400":
+          description: Requisição inválida
+        "500":
+          description: Erro interno na API de verificação
   #==========================
   # Monitoramento
   #==========================
