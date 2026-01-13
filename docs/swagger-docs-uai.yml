@@ -371,9 +371,9 @@ paths:
                 - id
               properties:
                 id:
-                  type: integer
+                  type: string
                   description: ID do contrato no IXC
-                  example: 123456
+                  example: "123456"
       responses:
         "200":
           description: Desbloqueio realizado com sucesso
@@ -413,7 +413,7 @@ paths:
   #==========================
   # Utilidades
   #==========================
-  /{cep}/json/:
+  /viacep/{cep}/json/:
     get:
       tags:
         - Utilidades
